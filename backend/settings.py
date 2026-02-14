@@ -37,11 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',               
-    'core.apps.CoreConfig',         
+    
+    # Third-party apps
+    'rest_framework',
+    'corsheaders',
+    
+    # Your apps
+    'core.apps.CoreConfig',
 ]
 
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',           # Must be near the top
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,6 +67,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -117,3 +125,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+# CORS settings (for Flutter web to access local backend)
+CORS_ALLOW_ALL_ORIGINS = True      # ← Only for development! Change in production
+CORS_ALLOW_CREDENTIALS = True
+
+
+# Optional: if you want to be more strict later (not needed now)
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:50048",     # Flutter web default port
+#     "http://127.0.0.1:50048",
+# ]
